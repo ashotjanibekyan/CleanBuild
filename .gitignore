@@ -1,0 +1,7 @@
+/x64
+/.vs
+/CLeanBuildpp/CleanBuildpp.vcxproj.user
+/CLeanBuildpp/x64
+/CLeanBuild/bin
+/CLeanBuild/obj
+/CLeanBuild/CleanBuild.csproj.user

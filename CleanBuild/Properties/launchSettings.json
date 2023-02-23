@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "CleanBuild": {
+      "commandName": "Project",
+      "commandLineArgs": "."
+    }
+  }
+}
