@@ -1,33 +1,45 @@
 ﻿using CleanBuild;
 
-string? root = Environment.GetCommandLineArgs().NthOrDefault(1);
+var arguments = Environment.GetCommandLineArgs();
 
-DeleteBinsAndObjs(root);
-
-static void DeleteBinsAndObjs(string? path)
+string root;
+string[] folders = ["bin", "obj"];
+if (arguments.IndexOf("--f", out var index))
 {
-    path = Path.GetFullPath(path ?? ".");
+    root = index > 1 ? Path.GetFullPath(arguments.NthOrDefault(1) ?? ".") : Path.GetFullPath(".");
+    folders = arguments[(index + 1)..];
+}
+else
+{
+    root = Path.GetFullPath(arguments.NthOrDefault(1) ?? ".");
+}
+
+DeleteBinsAndObjs(root, folders);
+
+Console.WriteLine("Done");
+return;
+
+static void DeleteBinsAndObjs(string path, string[] folders)
+{
     if (!Directory.Exists(path))
     {
         return;
     }
 
-    string binPath = Path.Combine(path, "bin");
-    if (Directory.Exists(binPath))
+    foreach (var folder in folders)
     {
-        Directory.Delete(binPath, true);
-        Console.WriteLine($">> {binPath} deleted");
-    }
-    string objPath = Path.Combine(path, "obj");
-    if (Directory.Exists(objPath))
-    {
-        Directory.Delete(objPath, true);
-        Console.WriteLine($">> {objPath} deleted");
+        var folderPath = Path.Combine(path, folder);
+        if (!Directory.Exists(folderPath))
+        {
+            continue;
+        }
+
+        Directory.Delete(folderPath, true);
+        Console.WriteLine($">> {folderPath} deleted");
     }
 
-    foreach (string subDir in Directory.GetDirectories(path))
+    foreach (var subDir in Directory.GetDirectories(path))
     {
-        DeleteBinsAndObjs(subDir);
+        DeleteBinsAndObjs(subDir, folders);
     }
 }
-Console.WriteLine("Done");

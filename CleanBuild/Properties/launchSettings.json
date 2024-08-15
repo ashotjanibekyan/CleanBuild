@@ -2,7 +2,7 @@
   "profiles": {
     "CleanBuild": {
       "commandName": "Project",
-      "commandLineArgs": "."
+      "commandLineArgs": "\"C:\\dev\" --f bin obj .idea .vs"
     }
   }
 }
